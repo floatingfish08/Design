@@ -25,7 +25,7 @@
     stackCards.forEach((_, i) => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.setAttribute("aria-label", `Solution ${i + 1}`);
+      btn.setAttribute("aria-label", `Service ${i + 1}`);
       stackDots.appendChild(btn);
     });
   }
