@@ -78,6 +78,20 @@ a:hover { color: var(--teal); }
   justify-content: space-between;
   gap: 1rem;
 }
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: inherit;
+}
+.logo:hover { color: inherit; }
+.logo-mark {
+  width: 2.35rem;
+  height: 2.35rem;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
 .logo-word {
   font-family: var(--font-display);
   font-size: 1.55rem;
@@ -87,6 +101,16 @@ a:hover { color: var(--teal); }
 .logo-word span { font-style: italic; color: var(--teal); }
 .logo-word--footer { color: var(--white); font-size: 1.3rem; }
 .logo-word--footer span { color: #8fd0c3; }
+.logo--footer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.logo--footer .logo-mark {
+  width: 2rem;
+  height: 2rem;
+  filter: brightness(1.15);
+}
 
 .nav { display: none; gap: 1.5rem; align-items: center; }
 .nav a {
