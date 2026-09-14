@@ -15,8 +15,49 @@
   const stackStage = document.querySelector("#stack-stage");
   const stackCards = [...document.querySelectorAll(".stack-card")];
   const stackDots = document.querySelector("#stack-dots");
+  const introLoader = document.querySelector("#intro-loader");
+  const introVideo = introLoader?.querySelector("video");
+  const introSkip = document.querySelector("#intro-skip");
 
   if (year) year.textContent = String(new Date().getFullYear());
+
+  /* First-load intro video */
+  const dismissIntro = () => {
+    if (!introLoader || introLoader.classList.contains("is-done")) return;
+    try { sessionStorage.setItem("ltl-intro-seen", "1"); } catch (_) {}
+    introLoader.classList.add("is-done");
+    introLoader.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("is-intro");
+    if (introVideo) {
+      introVideo.pause();
+    }
+    window.setTimeout(() => introLoader.remove(), 900);
+  };
+
+  if (introLoader) {
+    const seen = (() => {
+      try { return sessionStorage.getItem("ltl-intro-seen") === "1"; } catch (_) { return false; }
+    })();
+
+    if (reduceMotion || seen) {
+      introLoader.remove();
+      document.body.classList.remove("is-intro");
+    } else {
+      document.body.classList.add("is-intro");
+      if (introVideo) {
+        introVideo.muted = true;
+        const playPromise = introVideo.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(() => dismissIntro());
+        }
+        introVideo.addEventListener("ended", dismissIntro);
+        introVideo.addEventListener("error", dismissIntro);
+      } else {
+        dismissIntro();
+      }
+      introSkip?.addEventListener("click", dismissIntro);
+    }
+  }
 
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const lerp = (a, b, t) => a + (b - a) * t;
